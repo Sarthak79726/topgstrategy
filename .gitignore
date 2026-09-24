@@ -1,0 +1,35 @@
+# Environment & Secret files
+.env
+.env.local
+*.env
+
+# Python Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python Caches & Compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Execution Logs & Generated Data
+logs/
+*.log
+*.csv
+
+# MT5 Executable Binary (125MB local binary - should be installed via MT5 installer)
+mt5_trading_bot/terminal64.exe
+terminal64.exe
+
+# Temporary & Working Files
+@version=6.txt
+
+# IDE & OS Files
+.vscode/
+.idea/
+*.swp
+.DS_Store
