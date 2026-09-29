@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pine Script v6 to MT5 Algorithmic Trading System | Dashboard</title>
+  <title>MT5 Algorithmic Trading System | Live Real-Time Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -12,112 +12,108 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Sidebar / Brand Navigation -->
+    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="brand">
         <div class="logo-icon">⚡</div>
         <div class="brand-text">
           <h1>JaduTona Algo</h1>
-          <span class="sub">Pine Script v6 $\rightarrow$ MT5</span>
+          <span class="sub">MT5 Live Execution</span>
         </div>
       </div>
 
       <nav class="nav-menu">
         <a href="#dashboard" class="nav-item active">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 1 0 01-1 1h-3m-6 0a1 1 1 0 001-1v-4a1 1 1 0 011-1h2a1 1 1 0 011 1v4a1 1 1 0 001 1m-6 0h6"></path></svg>
-          Overview
+          Live Overview
         </a>
-        <a href="#strategy" class="nav-item">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-          Indicator Telemetry
+        <a href="#positions" class="nav-item">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+          Open Positions
         </a>
         <a href="#trades" class="nav-item">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          Trade Executions
-        </a>
-        <a href="#fidelity" class="nav-item">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          Fidelity Audit
+          Trade Logs
         </a>
       </nav>
 
       <div class="vps-status-card">
-        <div class="card-title">CV Portfolio Deployment</div>
-        <p>Ready for GitHub Pages, Vercel, & Windows VPS hosting.</p>
-        <span class="badge github-badge">GitHub Ready</span>
+        <div class="card-title">Live MT5 Terminal</div>
+        <p>Streaming real-time rates, account metrics, and order execution.</p>
+        <span class="badge github-badge" id="live-mt5-badge">MT5 CONNECTED</span>
       </div>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <main class="main-content">
       <!-- Top Navigation Header -->
       <header class="top-header">
         <div class="header-title">
           <h2>Automated MT5 Trading Engine</h2>
-          <span class="symbol-pill">XAUUSD | M5</span>
+          <span class="symbol-pill" id="header-symbol">XAUUSD | M5</span>
         </div>
 
         <div class="header-actions">
           <div class="status-indicator online">
             <span class="dot"></span>
-            <span class="status-text">MT5 IPC CONNECTED (5056283582)</span>
+            <span class="status-text" id="status-account">MT5 IPC CONNECTING...</span>
           </div>
-          <button id="toggle-mode-btn" class="mode-toggle-btn dry-run">
-            <span class="mode-icon">🛡️</span> Mode: DRY-RUN / PAPER
+          <button id="toggle-mode-btn" class="mode-toggle-btn">
+            <span class="mode-icon">🚀</span> Loading Mode...
           </button>
         </div>
       </header>
 
-      <!-- Metric Stat Cards Grid -->
+      <!-- Dynamic Metric Stat Cards Grid -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-label">Account Balance</span>
+            <span class="stat-label">Live Account Balance</span>
             <span class="stat-icon">💰</span>
           </div>
-          <div class="stat-value" id="stat-balance">$5,000.36</div>
-          <div class="stat-sub positive">+0.00% Today</div>
+          <div class="stat-value" id="stat-balance">--</div>
+          <div class="stat-sub positive" id="stat-balance-sub">MT5 Real Balance</div>
         </div>
 
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-label">Account Equity</span>
+            <span class="stat-label">Live Equity</span>
             <span class="stat-icon">📈</span>
           </div>
-          <div class="stat-value" id="stat-equity">$5,000.36</div>
-          <div class="stat-sub positive">Margin Free: $5,000.36</div>
+          <div class="stat-value" id="stat-equity">--</div>
+          <div class="stat-sub positive" id="stat-free-margin">Free Margin: --</div>
         </div>
 
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-label">Market Structure Trend</span>
+            <span class="stat-label">Floating Profit / Loss</span>
+            <span class="stat-icon">⚡</span>
+          </div>
+          <div class="stat-value" id="stat-pnl">$0.00</div>
+          <div class="stat-sub" id="stat-open-positions">0 Active Open Trades</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Live Market Structure</span>
             <span class="stat-icon">🎯</span>
           </div>
-          <div class="stat-value bullish" id="stat-trend">BULLISH (BOS)</div>
-          <div class="stat-sub">Pine Script State Machine</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-header">
-            <span class="stat-label">Win Rate & Trades</span>
-            <span class="stat-icon">🏆</span>
-          </div>
-          <div class="stat-value" id="stat-winrate">78.4%</div>
-          <div class="stat-sub">37 Signals Processed</div>
+          <div class="stat-value" id="stat-trend">--</div>
+          <div class="stat-sub" id="stat-activity">0 Signals Logged</div>
         </div>
       </div>
 
-      <!-- Main Chart & SMC Telemetry Section -->
+      <!-- Live Positions, Levels & Chart Grid -->
       <div class="dashboard-grid">
         <!-- Live Chart Container -->
         <div class="chart-card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3>Live Market Price & Indicators</h3>
+              <h3>Live MT5 Price Chart</h3>
               <span class="live-pill">LIVE TICK</span>
             </div>
             <div class="chart-controls">
-              <span class="price-display" id="live-price">$2,654.80</span>
+              <span class="price-display" id="live-price">--</span>
             </div>
           </div>
           <div class="chart-wrapper">
@@ -125,54 +121,39 @@
           </div>
         </div>
 
-        <!-- Strategy Telemetry Panel -->
-        <div class="telemetry-card">
-          <div class="card-header">
-            <h3>Smart Money Concepts (SMC)</h3>
-          </div>
-          
-          <div class="telemetry-list">
-            <div class="telemetry-item">
-              <span class="t-label">Initial Structure Shift (ISS)</span>
-              <span class="t-value badge iss-active">4-State ACTIVE</span>
+        <!-- Dynamic Live Levels & Open Positions Container -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- Open Positions Live Panel -->
+          <div class="telemetry-card">
+            <div class="card-header">
+              <h3>Currently Open Live Positions</h3>
             </div>
-            <div class="telemetry-item">
-              <span class="t-label">EMA 132 Filter</span>
-              <span class="t-value" id="telemetry-ema">2,648.20 (ABOVE)</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="t-label">Demand Order Block</span>
-              <span class="t-value green">2,642.10 - 2,645.00</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="t-label">Supply Order Block</span>
-              <span class="t-value red">2,668.50 - 2,671.20</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="t-label">Fair Value Gap (FVG)</span>
-              <span class="t-value cyan">2,651.00 (Unfilled)</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="t-label">QML / TJL Key Level</span>
-              <span class="t-value gold">2,638.40</span>
+            <div class="telemetry-list" id="open-positions-list">
+              <div class="telemetry-item" style="justify-content: center; color: #94a3b8; padding: 20px 0;">
+                <span>No open positions on MT5 right now.</span>
+              </div>
             </div>
           </div>
 
-          <div class="guard-notice">
-            <span class="guard-icon">🔒</span>
-            <div class="guard-text">
-              <strong>Strict Account Protection Active</strong>
-              <p>Account 5056283582 on MetaQuotes-Demo verified. Real order_send blocked in Dry-Run.</p>
+          <!-- Live Strategy Levels Panel (Computed 100% Live) -->
+          <div class="telemetry-card">
+            <div class="card-header">
+              <h3>Live Computed Strategy Levels</h3>
+            </div>
+            <div class="telemetry-list" id="live-levels-container">
+              <div class="telemetry-item" style="justify-content: center; color: #94a3b8; padding: 20px 0;">
+                <span>Calculating live market structure levels...</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Live Signals & Execution Feed Table -->
-      <div class="table-card">
+      <div class="table-card" id="trades">
         <div class="card-header">
-          <h3>Generated Signals & Trade Executions</h3>
-          <span class="table-badge">Real-Time Log</span>
+          <h3>Strategy Signals & Order Executions</h3>
+          <span class="table-badge">Real-Time Event Stream</span>
         </div>
 
         <div class="table-responsive">
@@ -181,48 +162,20 @@
               <tr>
                 <th>Timestamp</th>
                 <th>Symbol</th>
-                <th>Signal</th>
+                <th>Direction</th>
                 <th>Entry Price</th>
                 <th>Stop Loss</th>
                 <th>Take Profit</th>
-                <th>Lot Size</th>
-                <th>Risk ($)</th>
-                <th>Execution Mode</th>
+                <th>Risk / Lots</th>
+                <th>Strategy Component</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody id="trade-log-body">
               <tr>
-                <td>2026-09-24 01:25:00</td>
-                <td>XAUUSD</td>
-                <td><span class="badge buy">BUY</span></td>
-                <td>2650.50</td>
-                <td>2645.00</td>
-                <td>2665.00</td>
-                <td>0.10 Lots</td>
-                <td>$50.00 (1.0%)</td>
-                <td><span class="badge paper">SKIPPED - DRY RUN</span></td>
-              </tr>
-              <tr>
-                <td>2026-09-24 00:45:00</td>
-                <td>XAUUSD</td>
-                <td><span class="badge sell">SELL</span></td>
-                <td>2658.20</td>
-                <td>2663.50</td>
-                <td>2642.00</td>
-                <td>0.09 Lots</td>
-                <td>$50.00 (1.0%)</td>
-                <td><span class="badge paper">SKIPPED - DRY RUN</span></td>
-              </tr>
-              <tr>
-                <td>2026-09-23 22:15:00</td>
-                <td>XAUUSD</td>
-                <td><span class="badge buy">BUY</span></td>
-                <td>2641.10</td>
-                <td>2636.00</td>
-                <td>2656.00</td>
-                <td>0.10 Lots</td>
-                <td>$50.00 (1.0%)</td>
-                <td><span class="badge paper">SKIPPED - DRY RUN</span></td>
+                <td colspan="9" style="text-align: center; color: #94a3b8; padding: 25px;">
+                  Waiting for strategy signals...
+                </td>
               </tr>
             </tbody>
           </table>

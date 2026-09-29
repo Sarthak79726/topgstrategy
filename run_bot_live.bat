@@ -6,3 +6,5 @@ echo   Starting MT5 Automated Trading Bot (LIVE MODE)
 echo ===================================================
 python -m mt5_trading_bot.main live --confirm-live
 pause
+
+

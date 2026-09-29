@@ -191,6 +191,30 @@ class LiveTradingLoop:
             )
             if res:
                 logger.info(f"✅ Live Order executed successfully! Ticket: {res.get('ticket') or res.get('order')}")
+                log_trade_to_csv({
+                    "timestamp": str(sig.timestamp),
+                    "symbol": sig.symbol,
+                    "ticket": res.get("ticket") or res.get("order") or 0,
+                    "order_type": sig.direction,
+                    "volume": volume,
+                    "price": sig.entry_price,
+                    "sl": sig.stop_loss,
+                    "tp": sig.take_profit,
+                    "retcode": res.get("retcode", 0),
+                    "result_comment": res.get("comment", "SUCCESS")
+                })
             else:
                 logger.error("❌ Live Order execution failed.")
+                log_trade_to_csv({
+                    "timestamp": str(sig.timestamp),
+                    "symbol": sig.symbol,
+                    "ticket": 0,
+                    "order_type": sig.direction,
+                    "volume": volume,
+                    "price": sig.entry_price,
+                    "sl": sig.stop_loss,
+                    "tp": sig.take_profit,
+                    "retcode": -1,
+                    "result_comment": "FAILED"
+                })
 

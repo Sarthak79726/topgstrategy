@@ -84,7 +84,7 @@ class StrategyEngine:
         df["ema100"] = calculate_ema(df["close"], 100)
         df["ema200"] = calculate_ema(df["close"], 200)
 
-        self.signals.clear()
+        self.reset()
 
         # Iterate over bars sequentially starting from bar index 1
         for i in range(1, len(df)):
@@ -273,13 +273,13 @@ class StrategyEngine:
         update_fvg(self.state, df, bar_idx)
         update_order_blocks(self.state, df, bar_idx)
 
-        # 6. Check Taps & Level Updates
+        # 6. Check Level Touch Signal Generation (BEFORE update_levels deactivates tapped levels)
+        self._check_signals(ts_c, bar_idx, o_c, c_c, h_c, l_c)
+
+        # 7. Check Taps & Level Updates (Deactivates tapped levels)
         update_levels(self.state.levels, o_c, c_c, h_c, l_c, bar_idx, self.stop_on_tap, self.tap_source, self.stop_iss_34_by_wick_tap)
         trim_levels(self.state.levels, max_live_levels=140)
         compact_deleted_levels(self.state.levels)
-
-        # 7. Check Level Touch Signal Generation
-        self._check_signals(ts_c, bar_idx, o_c, c_c, h_c, l_c)
 
     def _check_signals(self, timestamp: pd.Timestamp, bar_idx: int, o: float, c: float, h: float, l: float):
         """Evaluate signal conditions on the current bar."""

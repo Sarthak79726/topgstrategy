@@ -187,27 +187,18 @@ def cmd_test():
         logger.error(f"❌ Test failures detected (Exit code: {exit_code})")
 
 def cmd_web():
-    """Launch local web server for trading dashboard and portfolio showcase."""
-    import http.server
-    import socketserver
+    """Launch local web server for trading dashboard and real-time execution monitoring."""
     import webbrowser
+    from .web.server import start_web_server
 
-    web_dir = Path(__file__).parent / "web"
     port = 8000
-    os.chdir(web_dir)
-
     logger.info(f"🌐 Launching Trading Engine Web Dashboard at http://localhost:{port}...")
     try:
         webbrowser.open(f"http://localhost:{port}")
     except Exception:
         pass
 
-    Handler = http.server.SimpleHTTPRequestHandler
-    with socketserver.TCPServer(("", port), Handler) as httpd:
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            logger.info("Web server stopped by user.")
+    start_web_server(port)
 
 def main():
     parser = argparse.ArgumentParser(description="Python MT5 Trading Bot - Pine Script Translation System")
